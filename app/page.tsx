@@ -97,27 +97,26 @@ export default function Home() {
               className="w-24 accent-red-500"
             />
             <span className="text-white text-xs">Ses: {Math.round(volume * 100)}%</span>
-            <button
-              onClick={togglePlayback}
-              className="text-white hover:text-red-300 transition-colors duration-300 text-xs flex items-center gap-1"
-            >
-              {isPlaying ? (
-                <><VolumeX className="w-4 h-4" /> Durdur</>
-              ) : (
-                <><Volume2 className="w-4 h-4" /> Başlat</>
-              )}
-            </button>
           </div>
         )}
         <button 
           onClick={toggleVolumeControl} 
-          className="p-3 rounded-full bg-red-900/60 backdrop-blur-sm hover:bg-red-800 transition-all duration-300 shadow-lg flex items-center gap-1"
+          className="p-3 rounded-full bg-red-900/60 backdrop-blur-sm hover:bg-red-800 transition-all duration-300 shadow-lg flex items-center justify-center"
           aria-label="Ses ayarları"
         >
+          <Volume2 className="w-5 h-5 text-white" />
+        </button>
+        
+        {/* Ayrı başlat/durdur butonu */}
+        <button 
+          onClick={togglePlayback} 
+          className="p-3 rounded-full bg-red-900/60 backdrop-blur-sm hover:bg-red-800 transition-all duration-300 shadow-lg flex items-center justify-center"
+          aria-label={isPlaying ? "Müziği durdur" : "Müziği başlat"}
+        >
           {isPlaying ? (
-            <Volume2 className="w-5 h-5 text-white" />
-          ) : (
             <VolumeX className="w-5 h-5 text-white" />
+          ) : (
+            <Volume2 className="w-5 h-5 text-white" />
           )}
         </button>
       </div>
