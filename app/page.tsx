@@ -50,13 +50,48 @@ export default function Home() {
   // Giriş ekranından ana sayfaya geçiş fonksiyonu
   const handleEnterSite = () => {
     setShowIntro(false)
-    // Kullanıcı tıklaması olduğu için artık müziği oynatmak güvenli
-    if (audioRef.current) {
-      audioRef.current.volume = volume
-      audioRef.current.play()
-        .then(() => setIsPlaying(true))
-        .catch(e => console.log("Oynatma hatası:", e))
-    }
+    
+    // Kullanıcı etkileşiminden sonra ses oynatma işlemi için kısa bir gecikme ekleyelim
+    setTimeout(() => {
+      if (audioRef.current) {
+        // Ses seviyesini ayarla
+        audioRef.current.volume = volume
+        
+        // Sessiz özelliğini kaldır
+        audioRef.current.muted = false
+        
+        // WebAudio API ile ses oynatma girişimi
+        const playAttempt = audioRef.current.play()
+        
+        if (playAttempt !== undefined) {
+          playAttempt
+            .then(() => {
+              console.log("Ses başarıyla çalıyor")
+              setIsPlaying(true)
+            })
+            .catch(e => {
+              console.log("Oynatma hatası:", e)
+              // Hata oluşursa kullanıcıya bildirelim
+              alert("Tarayıcınız otomatik ses oynatmayı engelliyor. Lütfen sayfada herhangi bir yere tıklayın.")
+              
+              // Sayfaya tıklanınca ses oynatmayı deneyelim
+              const clickHandler = () => {
+                if (audioRef.current) {
+                  audioRef.current.muted = false
+                  audioRef.current.play()
+                    .then(() => {
+                      setIsPlaying(true)
+                      document.removeEventListener('click', clickHandler)
+                    })
+                    .catch(err => console.log("İkinci deneme başarısız:", err))
+                }
+              }
+              
+              document.addEventListener('click', clickHandler)
+            })
+        }
+      }
+    }, 500) // 500ms gecikme
   }
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,9 +112,31 @@ export default function Home() {
         audioRef.current.pause()
         setIsPlaying(false)
       } else {
+        // Sesi açmayı dene
+        audioRef.current.muted = false
         audioRef.current.play()
           .then(() => setIsPlaying(true))
-          .catch(e => console.log("Oynatma hatası:", e))
+          .catch(e => {
+            console.log("Oynatma hatası:", e)
+            
+            // Kullanıcıya bildirelim
+            alert("Ses oynatabilmek için lütfen sayfada herhangi bir yere tıklayın.")
+            
+            // Belge tıklamasını dinleyelim
+            const documentClickHandler = () => {
+              if (audioRef.current) {
+                audioRef.current.muted = false
+                audioRef.current.play()
+                  .then(() => {
+                    setIsPlaying(true)
+                    document.removeEventListener('click', documentClickHandler)
+                  })
+                  .catch(err => console.log("Ses oynatma hatası:", err))
+              }
+            }
+            
+            document.addEventListener('click', documentClickHandler, { once: true })
+          })
       }
     }
   }
@@ -126,6 +183,7 @@ export default function Home() {
         src={`${basePath}/scarlet.MP3`}
         loop 
         preload="auto"
+        muted
         className="hidden" 
       />
       
