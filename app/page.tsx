@@ -461,7 +461,7 @@ export default function Home() {
                   <div className="mb-3 h-24 w-24 overflow-hidden rounded-full bg-gradient-to-br from-red-800 to-red-950 p-[3px] transition-all duration-300 group-hover:from-red-600 group-hover:to-red-800 hover:rotate-3">
                     <div className="h-full w-full overflow-hidden rounded-full">
                       <Image
-                        src={`${basePath}/katou-megumi.gif`}
+                        src={`${basePath}/profilepicutephoto.png`}
                         width={150}
                         height={150}
                         alt="Player Avatar"
