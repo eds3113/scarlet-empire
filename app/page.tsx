@@ -12,6 +12,7 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)  // Başlangıçta kapalı
   const [volume, setVolume] = useState(0.25) // 0.25 = %25 ses
+  const [showVolumeControl, setShowVolumeControl] = useState(false)
   const [showIntro, setShowIntro] = useState(true)  // Giriş ekranı için state
   const audioRef = useRef<HTMLAudioElement>(null)
   
@@ -49,97 +50,36 @@ export default function Home() {
   // Giriş ekranından ana sayfaya geçiş fonksiyonu
   const handleEnterSite = () => {
     setShowIntro(false)
-    
-    // Kullanıcı etkileşiminden sonra ses oynatma işlemi için kısa bir gecikme ekleyelim
-    setTimeout(() => {
-      if (audioRef.current) {
-        // Ses seviyesini ayarla
-        audioRef.current.volume = volume
-        
-        // Sessiz özelliğini kaldır
-        audioRef.current.muted = false
-        
-        // WebAudio API ile ses oynatma girişimi
-        const playAttempt = audioRef.current.play()
-        
-        if (playAttempt !== undefined) {
-          playAttempt
-            .then(() => {
-              console.log("Ses başarıyla çalıyor")
-              setIsPlaying(true)
-            })
-            .catch(e => {
-              console.log("Oynatma hatası:", e)
-              // Hata oluşursa kullanıcıya bildirelim
-              alert("Tarayıcınız otomatik ses oynatmayı engelliyor. Lütfen sayfada herhangi bir yere tıklayın.")
-              
-              // Sayfaya tıklanınca ses oynatmayı deneyelim
-              const clickHandler = () => {
-                if (audioRef.current) {
-                  audioRef.current.muted = false
-                  audioRef.current.play()
-                    .then(() => {
-                      setIsPlaying(true)
-                      document.removeEventListener('click', clickHandler)
-                    })
-                    .catch(err => console.log("İkinci deneme başarısız:", err))
-                }
-              }
-              
-              document.addEventListener('click', clickHandler)
-            })
-        }
-      }
-    }, 500) // 500ms gecikme
+    // Kullanıcı tıklaması olduğu için artık müziği oynatmak güvenli
+    if (audioRef.current) {
+      audioRef.current.volume = volume
+      audioRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch(e => console.log("Oynatma hatası:", e))
+    }
   }
 
-  // Ses seviyesini artır (maksimum 1.0)
-  const increaseVolume = () => {
-    if (audioRef.current && volume < 1.0) {
-      const newVolume = Math.min(volume + 0.1, 1.0)
-      setVolume(newVolume)
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseFloat(e.target.value)
+    setVolume(newVolume)
+    if (audioRef.current) {
       audioRef.current.volume = newVolume
     }
   }
 
-  // Ses seviyesini azalt (minimum 0.0)
-  const decreaseVolume = () => {
-    if (audioRef.current && volume > 0) {
-      const newVolume = Math.max(volume - 0.1, 0)
-      setVolume(newVolume)
-      audioRef.current.volume = newVolume
-    }
+  const toggleVolumeControl = () => {
+    setShowVolumeControl(!showVolumeControl)
   }
-  
-  // Sesi aç/kapa
+
   const togglePlayback = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause()
         setIsPlaying(false)
       } else {
-        // Sesi açmayı dene
-        audioRef.current.muted = false
         audioRef.current.play()
           .then(() => setIsPlaying(true))
-          .catch(e => {
-            console.log("Oynatma hatası:", e)
-            alert("Ses oynatabilmek için lütfen sayfada herhangi bir yere tıklayın.")
-            
-            const documentClickHandler = () => {
-              if (audioRef.current) {
-                audioRef.current.muted = false
-                audioRef.current.play()
-                  .then(() => {
-                    setIsPlaying(true)
-                    document.removeEventListener('click', documentClickHandler)
-                  })
-                  .catch(err => console.log("Ses oynatma hatası:", err))
-              }
-            }
-            
-            document.addEventListener('click', documentClickHandler, { once: true })
-          })
+          .catch(e => console.log("Oynatma hatası:", e))
       }
     }
   }
@@ -186,60 +126,52 @@ export default function Home() {
         src={`${basePath}/scarlet.MP3`}
         loop 
         preload="auto"
-        muted
         className="hidden" 
       />
       
-      {/* Basitleştirilmiş Ses Kontrolleri */}
-      <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2">
-        {/* Ses Seviyesi Göstergesi */}
-        <div className="bg-red-900/60 backdrop-blur-sm px-3 py-1 rounded-lg text-white text-xs mr-1">
-          {Math.round(volume * 100)}%
+      {/* Sound Control Button */}
+      <div className="fixed bottom-4 right-4 z-50 flex items-end gap-2">
+        {showVolumeControl && (
+          <div className="bg-red-900/60 backdrop-blur-sm p-2 rounded-lg shadow-lg transition-all duration-300 transform flex flex-col items-center gap-2 animate-fadeIn">
+            <input 
+              type="range" 
+              min="0" 
+              max="1" 
+              step="0.01" 
+              value={volume} 
+              onChange={handleVolumeChange}
+              className="w-24 accent-red-500"
+            />
+            <span className="text-white text-xs">Ses: {Math.round(volume * 100)}%</span>
+          </div>
+        )}
+        <div className="flex gap-2">
+          <button 
+            onClick={togglePlayback} 
+            className="p-3 rounded-full bg-red-900/60 backdrop-blur-sm hover:bg-red-800 transition-all duration-300 shadow-lg"
+            aria-label="Sesi aç/kapat"
+          >
+            {isPlaying ? (
+              <Volume2 className="w-5 h-5 text-white" />
+            ) : (
+              <VolumeX className="w-5 h-5 text-white" />
+            )}
+          </button>
+          <button 
+            onClick={toggleVolumeControl} 
+            className="p-3 rounded-full bg-red-900/60 backdrop-blur-sm hover:bg-red-800 transition-all duration-300 shadow-lg"
+            aria-label="Ses ayarları"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-white">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+          </button>
         </div>
-        
-        {/* Ses Azalt */}
-        <button 
-          onClick={decreaseVolume} 
-          className="p-3 rounded-full bg-red-900/60 backdrop-blur-sm hover:bg-red-800 transition-all duration-300 shadow-lg"
-          title="Sesi Azalt"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-white">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
-          </svg>
-        </button>
-        
-        {/* Ses Artır */}
-        <button 
-          onClick={increaseVolume} 
-          className="p-3 rounded-full bg-red-900/60 backdrop-blur-sm hover:bg-red-800 transition-all duration-300 shadow-lg"
-          title="Sesi Artır"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-white">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 0-12v12Z" fillOpacity={0.5} fill="currentColor" />
-          </svg>
-        </button>
-        
-        {/* Oynat/Durdur */}
-        <button 
-          onClick={togglePlayback} 
-          className="p-3 rounded-full bg-red-900/60 backdrop-blur-sm hover:bg-red-800 transition-all duration-300 shadow-lg"
-          title={isPlaying ? "Sesi Kapat" : "Sesi Aç"}
-        >
-          {isPlaying ? (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-white">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
-            </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-white">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
-            </svg>
-          )}
-        </button>
       </div>
-      
+
       {/* Hero Section */}
-      <section className="relative w-full min-h-screen overflow-hidden bg-black flex flex-col items-center justify-center py-12 md:py-16">
+      <section className="relative w-full h-screen overflow-hidden bg-black flex flex-col items-center justify-center">
         {/* Yeni arka plan tasarımı */}
         {/* Ana arka plan gradient - daha derin ve çarpıcı */}
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-zinc-950 via-red-950/30 to-black"></div>
@@ -284,11 +216,11 @@ export default function Home() {
           <div className="absolute top-0 left-[-100%] w-[300%] h-full bg-red-800/5 rotate-[40deg]"></div>
         </div>
 
-        <div className={`container relative z-10 mx-auto px-4 py-4 md:py-8 md:px-6 flex flex-col items-center justify-center gap-4 md:gap-6 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`container relative z-10 mx-auto px-4 py-4 md:px-6 flex flex-col items-center mt-[-5%] gap-5 md:gap-6 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
           {/* Logo ve İçerik Bölümü */}
           <div className="w-full flex flex-col items-center text-center space-y-3 pt-0 pb-4">
             {/* Logo - geliştirilmiş parlama efekti */}
-            <div className="w-full max-w-[220px] xs:max-w-[240px] md:max-w-[250px] relative group animate-fadeIn mt-0 mb-0">
+            <div className="w-full max-w-[240px] md:max-w-[250px] relative group animate-fadeIn mt-0 mb-0">
               <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 via-red-600/40 to-red-600/20 blur-lg rounded-full opacity-75 group-hover:opacity-100 transition duration-1500 group-hover:duration-1200 animate-[pulse_8s_ease-in-out_infinite]"></div>
               <Image
                 src={`${basePath}/SZIVP8d.png`}
@@ -301,17 +233,17 @@ export default function Home() {
             </div>
 
             {/* Tagline ve altyazı tek container içinde */}
-            <div className="flex flex-col items-center space-y-0 mb-2 mt-2">
+            <div className="flex flex-col items-center space-y-0 mb-2">
               {/* Tagline - geliştirilmiş animasyon efekti */}
               <div className="max-w-[600px] text-lg text-gray-300 md:text-xl">
                 <div className="relative overflow-hidden">
-                  <span className="inline-block font-bold text-red-500 text-xl sm:text-2xl md:text-3xl animate-pulse">
+                  <span className="inline-block font-bold text-red-500 text-2xl md:text-3xl animate-pulse">
                     Conquer. Dominate. Rule.
                   </span>
                 </div>
               </div>
               
-              <div className="max-w-[600px] text-sm sm:text-base text-gray-300 md:text-lg mt-1">
+              <div className="max-w-[600px] text-base text-gray-300 md:text-lg mt-1">
                 <span className="inline-block font-light text-gray-300/90">
                   Join the elite gaming community.
                 </span>
@@ -319,7 +251,7 @@ export default function Home() {
             </div>
             
             {/* Video kartı - artık slogan altında */}
-            <div className="overflow-hidden rounded-lg border border-red-800/30 shadow-[0_0_25px_rgba(185,28,28,0.2)] transition-all duration-500 hover:shadow-[0_0_35px_rgba(185,28,28,0.4)] backdrop-blur-md bg-black/40 group w-full max-w-[90%] sm:max-w-[85%] md:max-w-[75%] lg:max-w-[60%] xl:max-w-[50%] mx-auto mt-4 mb-6">
+            <div className="overflow-hidden rounded-lg border border-red-800/30 shadow-[0_0_25px_rgba(185,28,28,0.2)] transition-all duration-500 hover:shadow-[0_0_35px_rgba(185,28,28,0.4)] backdrop-blur-md bg-black/40 group w-full max-w-[85%] md:max-w-[75%] lg:max-w-[60%] xl:max-w-[50%] mx-auto mt-4 mb-6">
               <div className="aspect-video w-full">
                 <div className="flex h-full items-center justify-center relative">
                   <Image
@@ -354,7 +286,7 @@ export default function Home() {
         </div>
 
         {/* Scroll göstergesi - geliştirilmiş animasyon */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center cursor-pointer" onClick={() => document.getElementById('about')?.scrollIntoView({behavior: 'smooth'})}>
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center cursor-pointer" onClick={() => document.getElementById('about')?.scrollIntoView({behavior: 'smooth'})}>
           <span className="text-red-500/70 text-[10px] mb-1 animate-fadeIn tracking-wider font-medium uppercase">Explore</span>
           <div className="w-4 h-7 border border-red-500/40 rounded-full flex justify-center p-1">
             <div className="w-1 h-1.5 bg-red-500/80 rounded-full animate-scrollDown"></div>
@@ -461,7 +393,7 @@ export default function Home() {
                   <div className="mb-3 h-24 w-24 overflow-hidden rounded-full bg-gradient-to-br from-red-800 to-red-950 p-[3px] transition-all duration-300 group-hover:from-red-600 group-hover:to-red-800 hover:rotate-3">
                     <div className="h-full w-full overflow-hidden rounded-full">
                       <Image
-                        src={`${basePath}/profilepicutephoto.png`}
+                        src={`${basePath}/katou-megumi.gif`}
                         width={150}
                         height={150}
                         alt="Player Avatar"
