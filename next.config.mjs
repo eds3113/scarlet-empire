@@ -20,13 +20,16 @@ const nextConfig = {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
-    skipTrailingSlashRedirect: true,
     strictNextHead: false
   },
+  skipTrailingSlashRedirect: true,
   compiler: {
     removeConsole: false,
     styledComponents: true,
   },
+  output: 'export',
+  distDir: 'out',
+  basePath: '/scarlet-empire',
 }
 
 mergeConfig(nextConfig, userConfig)
