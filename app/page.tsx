@@ -14,6 +14,9 @@ export default function Home() {
   const [volume, setVolume] = useState(0.25) // 0.25 = %25 ses
   const [showVolumeControl, setShowVolumeControl] = useState(false)
   const audioRef = useRef<HTMLAudioElement>(null)
+  
+  // Base path for assets
+  const basePath = "/scarlet-empire"
 
   useEffect(() => {
     // Sayfa yüklendiğinde animasyon için
@@ -66,7 +69,7 @@ export default function Home() {
       {/* Background Audio */}
       <audio 
         ref={audioRef} 
-        src="/scarlet.mp3" 
+        src={`${basePath}/scarlet.MP3`}
         loop 
         preload="auto"
         className="hidden" 
@@ -150,7 +153,7 @@ export default function Home() {
             <div className="w-full max-w-[240px] md:max-w-[250px] relative group animate-fadeIn mt-0 mb-1">
               <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 via-red-600/40 to-red-600/20 blur-lg rounded-full opacity-75 group-hover:opacity-100 transition duration-1500 group-hover:duration-1200 animate-[pulse_8s_ease-in-out_infinite]"></div>
               <Image
-                src="/SZIVP8d.png"
+                src={`${basePath}/SZIVP8d.png`}
                 width={240}
                 height={140}
                 alt="Scarlet Empire Logo"
@@ -182,7 +185,7 @@ export default function Home() {
               <div className="aspect-video w-full">
                 <div className="flex h-full items-center justify-center relative">
                   <Image
-                    src="/deneme.webp"
+                    src={`${basePath}/deneme.webp`}
                     alt="Scarlet Empire Preview"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -302,7 +305,7 @@ export default function Home() {
                   <div className="mb-3 h-24 w-24 overflow-hidden rounded-full bg-gradient-to-br from-red-800 to-red-950 p-[3px] transition-all duration-300 group-hover:from-red-600 group-hover:to-red-800 hover:rotate-3">
                     <div className="h-full w-full overflow-hidden rounded-full">
                       <Image
-                        src="/katou-megumi.gif"
+                        src={`${basePath}/katou-megumi.gif`}
                         width={150}
                         height={150}
                         alt="Player Avatar"
@@ -320,7 +323,7 @@ export default function Home() {
                   <div className="mb-3 h-24 w-24 overflow-hidden rounded-full bg-gradient-to-br from-red-800 to-red-950 p-[3px] transition-all duration-300 group-hover:from-red-600 group-hover:to-red-800 hover:rotate-3">
                     <div className="h-full w-full overflow-hidden rounded-full">
                       <Image
-                        src="/katou-megumi.gif"
+                        src={`${basePath}/katou-megumi.gif`}
                         width={150}
                         height={150}
                         alt="Player Avatar"
@@ -338,7 +341,7 @@ export default function Home() {
                   <div className="mb-3 h-24 w-24 overflow-hidden rounded-full bg-gradient-to-br from-red-800 to-red-950 p-[3px] transition-all duration-300 group-hover:from-red-600 group-hover:to-red-800 hover:rotate-3">
                     <div className="h-full w-full overflow-hidden rounded-full">
                       <Image
-                        src="/katou-megumi.gif"
+                        src={`${basePath}/katou-megumi.gif`}
                         width={150}
                         height={150}
                         alt="Player Avatar"
