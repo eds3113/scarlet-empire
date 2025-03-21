@@ -239,7 +239,7 @@ export default function Home() {
       </div>
       
       {/* Hero Section */}
-      <section className="relative w-full h-screen overflow-hidden bg-black flex flex-col items-center justify-center">
+      <section className="relative w-full min-h-screen overflow-hidden bg-black flex flex-col items-center justify-center py-12 md:py-16">
         {/* Yeni arka plan tasarımı */}
         {/* Ana arka plan gradient - daha derin ve çarpıcı */}
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-zinc-950 via-red-950/30 to-black"></div>
@@ -284,11 +284,11 @@ export default function Home() {
           <div className="absolute top-0 left-[-100%] w-[300%] h-full bg-red-800/5 rotate-[40deg]"></div>
         </div>
 
-        <div className={`container relative z-10 mx-auto px-4 py-4 md:px-6 flex flex-col items-center mt-[-5%] gap-5 md:gap-6 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`container relative z-10 mx-auto px-4 py-4 md:py-8 md:px-6 flex flex-col items-center justify-center gap-4 md:gap-6 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
           {/* Logo ve İçerik Bölümü */}
           <div className="w-full flex flex-col items-center text-center space-y-3 pt-0 pb-4">
             {/* Logo - geliştirilmiş parlama efekti */}
-            <div className="w-full max-w-[240px] md:max-w-[250px] relative group animate-fadeIn mt-0 mb-0">
+            <div className="w-full max-w-[220px] xs:max-w-[240px] md:max-w-[250px] relative group animate-fadeIn mt-0 mb-0">
               <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 via-red-600/40 to-red-600/20 blur-lg rounded-full opacity-75 group-hover:opacity-100 transition duration-1500 group-hover:duration-1200 animate-[pulse_8s_ease-in-out_infinite]"></div>
               <Image
                 src={`${basePath}/SZIVP8d.png`}
@@ -301,17 +301,17 @@ export default function Home() {
             </div>
 
             {/* Tagline ve altyazı tek container içinde */}
-            <div className="flex flex-col items-center space-y-0 mb-2">
+            <div className="flex flex-col items-center space-y-0 mb-2 mt-2">
               {/* Tagline - geliştirilmiş animasyon efekti */}
               <div className="max-w-[600px] text-lg text-gray-300 md:text-xl">
                 <div className="relative overflow-hidden">
-                  <span className="inline-block font-bold text-red-500 text-2xl md:text-3xl animate-pulse">
+                  <span className="inline-block font-bold text-red-500 text-xl sm:text-2xl md:text-3xl animate-pulse">
                     Conquer. Dominate. Rule.
                   </span>
                 </div>
               </div>
               
-              <div className="max-w-[600px] text-base text-gray-300 md:text-lg mt-1">
+              <div className="max-w-[600px] text-sm sm:text-base text-gray-300 md:text-lg mt-1">
                 <span className="inline-block font-light text-gray-300/90">
                   Join the elite gaming community.
                 </span>
@@ -319,7 +319,7 @@ export default function Home() {
             </div>
             
             {/* Video kartı - artık slogan altında */}
-            <div className="overflow-hidden rounded-lg border border-red-800/30 shadow-[0_0_25px_rgba(185,28,28,0.2)] transition-all duration-500 hover:shadow-[0_0_35px_rgba(185,28,28,0.4)] backdrop-blur-md bg-black/40 group w-full max-w-[85%] md:max-w-[75%] lg:max-w-[60%] xl:max-w-[50%] mx-auto mt-4 mb-6">
+            <div className="overflow-hidden rounded-lg border border-red-800/30 shadow-[0_0_25px_rgba(185,28,28,0.2)] transition-all duration-500 hover:shadow-[0_0_35px_rgba(185,28,28,0.4)] backdrop-blur-md bg-black/40 group w-full max-w-[90%] sm:max-w-[85%] md:max-w-[75%] lg:max-w-[60%] xl:max-w-[50%] mx-auto mt-4 mb-6">
               <div className="aspect-video w-full">
                 <div className="flex h-full items-center justify-center relative">
                   <Image
@@ -354,7 +354,7 @@ export default function Home() {
         </div>
 
         {/* Scroll göstergesi - geliştirilmiş animasyon */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center cursor-pointer" onClick={() => document.getElementById('about')?.scrollIntoView({behavior: 'smooth'})}>
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center cursor-pointer" onClick={() => document.getElementById('about')?.scrollIntoView({behavior: 'smooth'})}>
           <span className="text-red-500/70 text-[10px] mb-1 animate-fadeIn tracking-wider font-medium uppercase">Explore</span>
           <div className="w-4 h-7 border border-red-500/40 rounded-full flex justify-center p-1">
             <div className="w-1 h-1.5 bg-red-500/80 rounded-full animate-scrollDown"></div>
