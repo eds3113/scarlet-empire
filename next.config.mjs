@@ -30,6 +30,7 @@ const nextConfig = {
   output: 'export',
   distDir: 'out',
   basePath: '/scarlet-empire',
+  assetPrefix: '/scarlet-empire/',
 }
 
 mergeConfig(nextConfig, userConfig)
