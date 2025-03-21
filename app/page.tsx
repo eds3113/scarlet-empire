@@ -85,29 +85,6 @@ export default function Home() {
       
       {/* Sound Control Button */}
       <div className="fixed bottom-4 right-4 z-50 flex items-end gap-2">
-        {showVolumeControl && (
-          <div className="bg-red-900/60 backdrop-blur-sm p-2 rounded-lg shadow-lg transition-all duration-300 transform flex flex-col items-center gap-2 animate-fadeIn">
-            <input 
-              type="range" 
-              min="0" 
-              max="1" 
-              step="0.01" 
-              value={volume} 
-              onChange={handleVolumeChange}
-              className="w-24 accent-red-500"
-            />
-            <span className="text-white text-xs">Ses: {Math.round(volume * 100)}%</span>
-          </div>
-        )}
-        <button 
-          onClick={toggleVolumeControl} 
-          className="p-3 rounded-full bg-red-900/60 backdrop-blur-sm hover:bg-red-800 transition-all duration-300 shadow-lg flex items-center justify-center"
-          aria-label="Ses ayarları"
-        >
-          <Volume2 className="w-5 h-5 text-white" />
-        </button>
-        
-        {/* Ayrı başlat/durdur butonu */}
         <button 
           onClick={togglePlayback} 
           className="p-3 rounded-full bg-red-900/60 backdrop-blur-sm hover:bg-red-800 transition-all duration-300 shadow-lg flex items-center justify-center"
@@ -344,7 +321,7 @@ export default function Home() {
                   <div className="mb-3 h-24 w-24 overflow-hidden rounded-full bg-gradient-to-br from-red-800 to-red-950 p-[3px] transition-all duration-300 group-hover:from-red-600 group-hover:to-red-800 hover:rotate-3">
                     <div className="h-full w-full overflow-hidden rounded-full">
                       <Image
-                        src={`${basePath}/katou-megumi.gif`}
+                        src={`${basePath}/ProfilePicturePhoto.png`}
                         width={150}
                         height={150}
                         alt="Player Avatar"
