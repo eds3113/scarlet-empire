@@ -99,7 +99,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative w-full h-screen overflow-hidden bg-black flex flex-col items-center justify-center">
+      <section className="relative w-full min-h-screen overflow-hidden bg-black flex flex-col items-center justify-center py-16">
         {/* Yeni arka plan tasarımı */}
         {/* Ana arka plan gradient - daha derin ve çarpıcı */}
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-zinc-950 via-red-950/30 to-black"></div>
@@ -144,34 +144,34 @@ export default function Home() {
           <div className="absolute top-0 left-[-100%] w-[300%] h-full bg-red-800/5 rotate-[40deg]"></div>
         </div>
 
-        <div className={`container relative z-10 mx-auto px-4 py-4 md:px-6 flex flex-col items-center mt-[-5%] gap-5 md:gap-6 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`container relative z-10 mx-auto px-4 py-4 md:px-6 flex flex-col items-center md:mt-[-5%] gap-5 md:gap-6 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
           {/* Logo ve İçerik Bölümü */}
           <div className="w-full flex flex-col items-center text-center space-y-8 pt-0 pb-4">
             {/* Logo - geliştirilmiş parlama efekti */}
-            <div className="w-full max-w-[240px] md:max-w-[250px] relative group animate-fadeIn mt-0 mb-1">
+            <div className="w-full max-w-[220px] sm:max-w-[240px] md:max-w-[250px] relative group animate-fadeIn mt-6 md:mt-0 mb-1 px-4">
               <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 via-red-600/40 to-red-600/20 blur-lg rounded-full opacity-75 group-hover:opacity-100 transition duration-1500 group-hover:duration-1200 animate-[pulse_8s_ease-in-out_infinite]"></div>
               <Image
                 src={`${basePath}/SZIVP8d.png`}
                 width={240}
                 height={140}
                 alt="Scarlet Empire Logo"
-                className="w-full relative z-10 transition-all duration-700 group-hover:scale-105 drop-shadow-[0_5px_15px_rgba(220,38,38,0.4)]"
+                className="w-full h-auto relative z-10 transition-all duration-700 group-hover:scale-105 drop-shadow-[0_5px_15px_rgba(220,38,38,0.4)]"
                 priority
               />
             </div>
 
             {/* Tagline ve altyazı tek container içinde */}
-            <div className="flex flex-col items-center space-y-0">
+            <div className="flex flex-col items-center space-y-0 px-4">
               {/* Tagline - geliştirilmiş animasyon efekti */}
               <div className="max-w-[600px] text-lg text-gray-300 md:text-xl">
                 <div className="relative overflow-hidden">
-                  <span className="inline-block font-bold text-red-500 text-2xl md:text-3xl animate-pulse">
+                  <span className="inline-block font-bold text-red-500 text-xl sm:text-2xl md:text-3xl animate-pulse">
                     Conquer. Dominate. Rule.
                   </span>
                 </div>
               </div>
               
-              <div className="max-w-[600px] text-base text-gray-300 md:text-lg">
+              <div className="max-w-[600px] text-sm sm:text-base text-gray-300 md:text-lg">
                 <span className="inline-block font-light text-gray-300/90">
                   Join the elite gaming community.
                 </span>
@@ -179,7 +179,7 @@ export default function Home() {
             </div>
             
             {/* Video kartı - artık slogan altında */}
-            <div className="overflow-hidden rounded-lg border border-red-800/30 shadow-[0_0_25px_rgba(185,28,28,0.2)] transition-all duration-500 hover:shadow-[0_0_35px_rgba(185,28,28,0.4)] backdrop-blur-md bg-black/40 group w-full max-w-[85%] md:max-w-[75%] lg:max-w-[60%] xl:max-w-[50%] mx-auto mb-10">
+            <div className="overflow-hidden rounded-lg border border-red-800/30 shadow-[0_0_25px_rgba(185,28,28,0.2)] transition-all duration-500 hover:shadow-[0_0_35px_rgba(185,28,28,0.4)] backdrop-blur-md bg-black/40 group w-full max-w-[95%] sm:max-w-[85%] md:max-w-[75%] lg:max-w-[60%] xl:max-w-[50%] mx-auto mb-6 sm:mb-10">
               <div className="aspect-video w-full">
                 <div className="flex h-full items-center justify-center relative">
                   <Image
@@ -193,9 +193,9 @@ export default function Home() {
                   <div className="flex flex-col items-center gap-2 transition-all duration-500 group-hover:scale-105 absolute z-10">
                     <div className="relative">
                       <div className="absolute -inset-1 rounded-full bg-red-600/20 blur-md animate-ping opacity-75 group-hover:opacity-100"></div>
-                      <div className="relative z-10 flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-white shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] group-hover:from-red-500 group-hover:to-red-700 transition-all duration-300">
+                      <div className="relative z-10 flex h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-white shadow-[inset_0_0_15px_rgba(0,0,0,0.5)] group-hover:from-red-500 group-hover:to-red-700 transition-all duration-300">
                         <svg
-                          className="h-6 w-6 md:h-8 md:w-8 ml-1 group-hover:ml-2 transition-all duration-300"
+                          className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 ml-1 group-hover:ml-2 transition-all duration-300"
                           viewBox="0 0 24 24"
                           fill="currentColor"
                         >
