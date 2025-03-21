@@ -39,13 +39,23 @@ export default function Home() {
     if (joinSectionRef.current) observer.observe(joinSectionRef.current)
     if (aboutSectionRef.current) observer.observe(aboutSectionRef.current)
 
-    // Otomatik başlatma kaldırıldı
+    // Şarkı bittiğinde durumu güncelle
+    if (audioRef.current) {
+      audioRef.current.addEventListener('ended', () => {
+        setIsPlaying(false)
+      })
+    }
 
     // Temizleme
     return () => {
       if (joinSectionRef.current) observer.unobserve(joinSectionRef.current)
       if (aboutSectionRef.current) observer.unobserve(aboutSectionRef.current)
-      if (audioRef.current) audioRef.current.pause() // Component unmount olduğunda müziği durdur
+      if (audioRef.current) {
+        audioRef.current.pause() // Component unmount olduğunda müziği durdur
+        audioRef.current.removeEventListener('ended', () => {
+          setIsPlaying(false)
+        })
+      }
     }
   }, [])
 
@@ -54,6 +64,10 @@ export default function Home() {
       if (isPlaying) {
         audioRef.current.pause()
       } else {
+        // Eğer şarkı bitmişse baştan başlat
+        if (audioRef.current.ended) {
+          audioRef.current.currentTime = 0
+        }
         audioRef.current.play().catch(e => console.log("Müzik çalma hatası:", e))
       }
       setIsPlaying(!isPlaying)
@@ -78,7 +92,6 @@ export default function Home() {
       <audio 
         ref={audioRef} 
         src={`${basePath}/scarlet.MP3`}
-        loop 
         preload="auto"
         className="hidden" 
       />
