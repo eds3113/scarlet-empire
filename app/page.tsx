@@ -162,7 +162,7 @@ export default function Home() {
           <div className="w-full flex flex-col items-center text-center space-y-8 pt-0 pb-4">
             {/* Logo - geliştirilmiş parlama efekti */}
             <div className="w-full max-w-[220px] sm:max-w-[240px] md:max-w-[250px] relative group animate-fadeIn mt-6 md:mt-0 mb-1 px-4">
-              <div className="absolute -inset-1 bg-gradient-to-r from-red-600/5 via-red-600/15 to-red-600/5 blur-sm rounded-full opacity-30 group-hover:opacity-50 transition duration-1500 group-hover:duration-1200 animate-[pulse_15s_ease-in-out_infinite]"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-red-600/5 via-red-600/15 to-red-600/5 blur-md rounded-full opacity-40 group-hover:opacity-50 transition duration-1500 group-hover:duration-1200 animate-[pulse_15s_ease-in-out_infinite]"></div>
               <Image
                 src={`${basePath}/SZIVP8d.png`}
                 width={240}
