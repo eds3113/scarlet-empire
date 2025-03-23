@@ -334,7 +334,7 @@ export default function Home() {
                   <div className="mb-3 h-24 w-24 overflow-hidden rounded-full bg-gradient-to-br from-red-800 to-red-950 p-[3px] transition-all duration-300 group-hover:from-red-600 group-hover:to-red-800 hover:rotate-3">
                     <div className="h-full w-full overflow-hidden rounded-full">
                       <Image
-                        src={`${basePath}/ProfilePicturePhoto.png`}
+                        src={`${basePath}/katou-megumi.gif`}
                         width={150}
                         height={150}
                         alt="Player Avatar"
@@ -361,9 +361,9 @@ export default function Home() {
                     </div>
                   </div>
                   <h4 className="text-lg font-bold text-white group-hover:text-red-400 transition-colors duration-300">
-                    Shin
+                    Exxel
                   </h4>
-                  <p className="text-sm text-gray-400 hover:text-red-300 transition-colors duration-300">Warlord</p>
+                  <p className="text-sm text-gray-400 hover:text-red-300 transition-colors duration-300">Territory Manager</p>
                 </div>
               </div>
             </div>
