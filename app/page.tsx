@@ -369,14 +369,16 @@ export default function Home() {
             </div>
 
             <div className="mt-12 section-item" style={{ transitionDelay: "0.6s" }}>
-              <Button className="relative overflow-hidden bg-red-700 text-white hover:bg-red-800 px-8 py-6 text-lg shadow-[0_0_15px_rgba(185,28,28,0.3)] group hover:scale-105 transition-all duration-300 ease-in-out">
-                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-red-600 to-red-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                <span className="absolute -inset-x-1 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-red-400 to-transparent opacity-30 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-300"></span>
-                <span className="relative z-10 flex items-center">
-                  Join Our Discord to Apply{" "}
-                  <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </span>
-              </Button>
+              <a href="https://discord.gg/szjHgEzFhQ" target="_blank" rel="noopener noreferrer">
+                <Button className="relative overflow-hidden bg-red-700 text-white hover:bg-red-800 px-8 py-6 text-lg shadow-[0_0_15px_rgba(185,28,28,0.3)] group hover:scale-105 transition-all duration-300 ease-in-out">
+                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-red-600 to-red-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  <span className="absolute -inset-x-1 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-red-400 to-transparent opacity-30 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-300"></span>
+                  <span className="relative z-10 flex items-center">
+                    Join Our Discord to Apply{" "}
+                    <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  </span>
+                </Button>
+              </a>
             </div>
           </div>
         </div>
