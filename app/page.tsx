@@ -343,9 +343,9 @@ export default function Home() {
                     </div>
                   </div>
                   <h4 className="text-lg font-bold text-white group-hover:text-red-400 transition-colors duration-300">
-                    Christoph
+                    Shin
                   </h4>
-                  <p className="text-sm text-gray-400 hover:text-red-300 transition-colors duration-300">Community Owner</p>
+                  <p className="text-sm text-gray-400 hover:text-red-300 transition-colors duration-300">Warlord</p>
                 </div>
 
                 <div className="flex flex-col items-center group">
